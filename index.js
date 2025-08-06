@@ -2,6 +2,7 @@ require('dotenv').config();
 const {requestLogger, addtimestamp} = require('./middleware/customMiddleware.js');
 const express = require('express');
 const configuration = require('./config/config.js');
+const {gogbalErrorhandler,asyncHandler,ApiError} = require('./middleware/errorHandler.js');
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(addtimestamp);
 app.use(configuration);
 app.use(express.json());
 
-
+app.use(gogbalErrorhandler);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
