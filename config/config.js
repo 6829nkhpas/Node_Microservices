@@ -13,10 +13,13 @@ const cors = require('cors');
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization','Accept-Version'],
         credentials: true,
-        maxAge: 86400,
+        maxAge: 600,
         preflightContinue: false,
         optionsSuccessStatus: 204,
         exposedHeaders: ['Content-Range', 'X-Total-Count'],
+        optionsSuccessStatus: 204,
   
     })
  }
+ 
+ module.exports = configuration;
