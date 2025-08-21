@@ -5,12 +5,14 @@ const configuration = require('./config/config.js');
 const {gogbalErrorhandler,asyncHandler,ApiError} = require('./middleware/errorHandler.js');
 const {headerVersioning,contentTypeVersioning,apiVersoning} = require('./middleware/apiVersoning.js');
 const app = express();
+const {createBasicRateLimiter} = require("./middleware/rateLimiting.js")
 
 const PORT = process.env.PORT || 3000;
 //express jason middleware
 app.use(requestLogger);
 app.use(addtimestamp);
-app.use(configuration);
+app.use(configuration());
+app.use(createBasicRateLimiter(100,15*60*1000));
 app.use(express.json());
 
 app.use("/api/v1", apiVersoning("v1"));
