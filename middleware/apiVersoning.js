@@ -17,3 +17,19 @@ const apiVersoning = (version) => (req, res, next) => {
         message: `API version ${version} not found`
     });
  }
+
+ const contentTypeVersioning = (version) => (req, res, next) => {
+    const contentType = req.headers['content-type'];
+    if(contentType === `application/vnd.myapi.v${version}+json`){
+        return next();
+    }
+    res.status(404).json({
+        success: false,
+        message: `API version ${version} not found`
+    });
+}
+module.exports = {
+    apiVersoning,
+    headerVersioning,
+    contentTypeVersioning
+};
