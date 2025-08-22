@@ -1,27 +1,37 @@
-require('dotenv').config();
-const {requestLogger, addtimestamp} = require('./middleware/customMiddleware.js');
-const express = require('express');
-const configuration = require('./config/config.js');
-const {gogbalErrorhandler,asyncHandler,ApiError} = require('./middleware/errorHandler.js');
-const {headerVersioning,contentTypeVersioning,apiVersoning} = require('./middleware/apiVersoning.js');
+require("dotenv").config();
+const {
+  requestLogger,
+  addtimestamp,
+} = require("./middleware/customMiddleware.js");
+const express = require("express");
+const configuration = require("./config/config.js");
+const {
+  gogbalErrorhandler,
+  asyncHandler,
+  ApiError,
+} = require("./middleware/errorHandler.js");
+const {
+  headerVersioning,
+  contentTypeVersioning,
+  apiVersoning,
+} = require("./middleware/apiVersoning.js");
 const app = express();
-const {createBasicRateLimiter} = require("./middleware/rateLimiting.js")
-const {itemRoutes} = require('./routes/item-routes.js');
+const { createBasicRateLimiter } = require("./middleware/rateLimiting.js");
+const { itemRoutes } = require("./routes/item-routes.js");
 
 const PORT = process.env.PORT || 3000;
 //express jason middleware
 app.use(requestLogger);
 app.use(addtimestamp);
 app.use(configuration());
-app.use(createBasicRateLimiter(100,15*60*1000));
+app.use(createBasicRateLimiter(100, 15 * 60 * 1000));
 app.use(express.json());
 
-app.use("/api/v1", apiVersoning("v1"));
+app.use(apiVersoning("1"));
 app.use("/api/v1", itemRoutes);
 
 app.use(gogbalErrorhandler);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    
-})
+  console.log(`Server is running on port ${PORT}`);
+});
