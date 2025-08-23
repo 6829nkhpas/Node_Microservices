@@ -26,4 +26,20 @@ router.get(
     res.json(items);
   })
 );
+router.post("/items", asyncHandler(async (req, res) => {
+    if(!req.body.name){
+        res.status(400).json({
+            success: false,
+            message: "Name is required",
+        });
+        return;
+    }
+  const { name } = req.body;
+  const newItem = {
+    id: items.length + 1,
+    name,
+  };
+  items.push(newItem);
+  res.status(201).json(newItem);
+}));
 module.exports = { itemRoutes: router };
